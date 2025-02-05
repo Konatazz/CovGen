@@ -20,10 +20,6 @@ from .Variance_Scheduler import DDIM_Scheduler
 from tqdm import tqdm
 
 
-
-
-
-
 class diff_model(nn.Module):
     # inCh - Number of input channels in the input batch
     # embCh - Number of channels to embed the batch to
@@ -66,7 +62,7 @@ class diff_model(nn.Module):
         self.step_size = step_size
         self.DDIM_scale = DDIM_scale
         self.num_classes = num_classes
-        self.activations = []  # 用于存储激活值
+        self.activations = []
 
         assert step_size > 0 and step_size <= T, "Step size must be in the range [1, T]"
         assert DDIM_scale >= 0, "DDIM scale must be greater than or equal to 0"
@@ -186,10 +182,7 @@ class diff_model(nn.Module):
     #   A tensor of shape (N, C, L, W) representing the mean of the
     #     unnoised image
     def noise_to_mean(self, epsilon, x_t, t, corrected=True):
-        # Note: Corrected function from the following:
-        # https://github.com/hojonathanho/diffusion/issues/5
 
-        
         # Get the beta and a values for the batch of t values
         beta_t = self.scheduler.sample_beta_t(t)
         sqrt_a_t = self.scheduler.sample_sqrt_a_t(t)
@@ -247,9 +240,7 @@ class diff_model(nn.Module):
     #   v - Batch of v predictions of shape (B, C, L, W)
     def forward(self, x_t, t, c=None, nullCls=None):
 
-        # 清空激活值
         self.activations.clear()
-
         # Ensure the data is on the correct device
         x_t = x_t.to(self.device)
         t = t.to(self.device)
@@ -299,7 +290,7 @@ class diff_model(nn.Module):
         noise = self.out_mean(noise)
         v = self.out_var(v)
 
-        self.activations.append(out)  # 记录最后一层的激活值
+        self.activations.append(out)
 
         return noise, v
     

@@ -4,12 +4,10 @@ from torch import nn
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-
 import torch.multiprocessing as mp
 from torch.utils.data.distributed import DistributedSampler
 from torch.nn.parallel import DistributedDataParallel as DDP
 import torch.distributed as dist
-
 from CustomDataset import CustomDataset
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data.dataloader import DataLoader
@@ -18,7 +16,6 @@ try:
     from helpers.multi_gpu_helpers import is_main_process
 except ModuleNotFoundError:
     from .helpers.multi_gpu_helpers import is_main_process
-
 
 cpu = torch.device('cpu')
 

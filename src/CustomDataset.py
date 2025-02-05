@@ -34,7 +34,6 @@ class CustomDataset(Dataset):
 
         self.selected_classes = selected_classes
 
-
         # The min class value represents the value that needs to be
         # subtracted from the class value so the min value will be 0
         self.cls_scale = cls_min
@@ -63,10 +62,6 @@ class CustomDataset(Dataset):
                 unique_classes = np.unique(self.label_mat)
                 print(f"Actual imported classes: {unique_classes}")
 
-
-
-
-        
         # Create a list of indices which can be used to
         # essentially shuffle the data
         self.data_idxs = np.arange(0, self.num_data)
@@ -76,10 +71,8 @@ class CustomDataset(Dataset):
     def get_first_n_classes_images(self, n_classes=5, n_images_per_class=10, output_dir='output_images'):
 
         os.makedirs(output_dir, exist_ok=True)
-
         unique_classes = np.unique(self.label_mat)
         selected_classes = unique_classes[:n_classes]
-
         images_per_class = {cls: [] for cls in selected_classes}
 
         for idx in range(len(self)):
@@ -104,7 +97,6 @@ class CustomDataset(Dataset):
         return self.num_data
 
     def __getitem__(self, idx):
-
         # Convert the given index to the shuffled index
         data_idx = self.data_idxs[idx]
 
